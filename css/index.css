@@ -1,0 +1,41 @@
+bodu{
+    background-color: #adadad;
+}
+
+main {
+    color:#1d1e1f;
+}
+
+
+main div.row {
+    height: 500px;
+}
+
+#shoe-container{
+    margin:0;
+}
+
+#shoe-container p{
+    height: 40px;
+}
+
+#model{
+    font-size: 50px;
+    text-align: right;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#colour{
+    font-size: 30px;
+    text-align: right;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#code-price-container {
+    font-size: 35px;
+    text-align: right;
+    font-weight: 400;
+    font-style: normal;
+}
