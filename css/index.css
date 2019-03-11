@@ -100,3 +100,25 @@ main div.row {
     color:#fff;
     font-weight: bolder;
 }
+
+#filters-container span {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding:10px;
+}
+
+#filters-container span.active {
+    background-color: #68b058;
+    color:#fff;
+}
+
+#filters-container span:hover{
+    background-color: #68b058;
+    color:#fff;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}

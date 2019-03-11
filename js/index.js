@@ -94,6 +94,10 @@ window.onload = function(){
 
     var rafflesStatus = {}
 
+    /**
+     * Controla el titulo y si la rifa ha sido activada por el cliente
+     * @param raffleTitle
+     */
     function manageRaffles(raffleTitle){
         if(rafflesStatus[raffleTitle] != undefined){
 
@@ -114,6 +118,27 @@ window.onload = function(){
         }
     }
 
+    /**
+     * GENERAMOS LOS FILTROS DINAMICAMENTE ( ALGUNOS COMO PAIS )
+     */
+
+    function isInArray(filter){
+       return raffleFilters.includes(filter)
+    }
+
+
+
+    var raffleFilters = ["post","collect","raffle","FCFS"];
+    function generateFilters(filter){
+        if(!isInArray(filter)){
+            filter.split(",").forEach(filterSplitted =>{
+                if(!isInArray(filterSplitted)){
+                    raffleFilters.push(filterSplitted);
+                }
+            });
+        }
+    }
+
     /*
        Obtenemos el valor del objeto shoe diractamente utilizando las ids que tenemos
      */
@@ -127,13 +152,6 @@ window.onload = function(){
         }
     });
 
-    var raffleArray = function(){
-        var raffleArrayAux = [];
-        for(raffle in raffles){
-            raffleArrayAux.push(raffles[raffle]);
-        }
-        return raffleArrayAux;
-    }
 
     /**
      * PINTAMOS LAS RIFAS A PARTIR DE LOS KEYS QUE OBTENEMOS DEL ARCHIVO JSON
@@ -155,8 +173,12 @@ window.onload = function(){
         div.classList.add('p-3')
         div.classList.add('m-3')
 
+        //Para añadir filtro de país dinámicamente
+        generateFilters(raffle['country'])
 
         Object.keys(raffle).forEach(raffleKey => {
+
+
 
             if(raffleKey == "logo"){
                 let img = document.createElement('img');
@@ -234,6 +256,19 @@ window.onload = function(){
 
 
     /**
+     * PINTAMOS LOS FILTROS
+     */
+
+        var filter_container = document.getElementById('filters-container')
+        raffleFilters.forEach(filter => {
+            let filterItem = document.createElement('span');
+            let filterName = document.createTextNode(filter);
+
+            filterItem.append(filterName);
+            filter_container.append(filterItem)
+        })
+
+    /**
      * EVENTO QUE MODIFICA EL COMPORTAMIENTO DE LOS BOTONES AL HACERLES HOVER;
      *
      */
@@ -295,5 +330,88 @@ window.onload = function(){
         })
     });
 
+
+    /**
+     * FILTRAR POR TIPO / PAIS
+     */
+
+    function cleanActives(){
+        index = 0;
+        document.querySelectorAll('#filters-container span').forEach(span => {
+            if(index > 0){
+                span.classList.remove('active');
+            }
+            index++;
+        })
+    }
+
+    /**
+     * Quitamos el estilo hidden y ponemos todos los objetos de rafflesStatus como false;
+     */
+    function showAll(){
+        document.querySelectorAll('#filters-container span')[0].classList.add('active');
+        rafflesKeys.forEach(raffleKey => {
+            document.getElementById(raffleKey.replace(' ', '-')).classList.remove('hidden');
+            rafflesStatus[raffleKey].filtered = false;
+        })
+        cleanActives();
+    }
+
+    function doFilter(filters){
+
+        if(filters.length == 0){
+            showAll();
+        } else {
+
+            rafflesKeys.forEach(raffle => {
+                var finded = false;
+                //Miramos todos los atributos de las raffles
+                Object.keys(raffles[raffle]).forEach(raffleAttribute => {
+                    if (filters.includes(raffles[raffle][raffleAttribute])) {
+                        rafflesStatus[raffle].filtered = true;
+                        finded = true;
+                        document.getElementById(raffle.replace(' ', '-')).classList.remove('hidden');
+                    }
+
+                    if (rafflesStatus[raffle].filtered && !finded) {
+                        rafflesStatus[raffle].filtered = false;
+                        console.log(document.getElementById(raffle.replace(' ', '-')).classList)
+                        document.getElementById(raffle.replace(' ', '-')).classList.add('hidden');
+                    }
+
+                });
+                if (!finded) {
+                    document.getElementById(raffle.replace(' ', '-')).classList.add('hidden');
+                }
+            });
+        }
+    }
+
+    var filterArray = [];
+    document.querySelectorAll('#filters-container span').forEach(span => {
+        span.addEventListener('click', function(filter){
+            filterElement = filter.srcElement;
+
+            //Si seleccionamos todos
+            if(filterElement.innerText == "All"){
+                filterArray = [];
+                filterElement.classList.add('active');
+            } else { // Si seleccionamos los demás
+                document.querySelectorAll('#filters-container span')[0].classList.remove('active');
+                if(!filterArray.includes(filterElement.innerText)){
+                    filterArray.push(filterElement.innerText);
+                } else {
+                    filterArray.splice(filterArray.indexOf(filterElement.innerText),1);
+                }
+
+                if(filterElement.classList.contains('active')){
+                    filterElement.classList.remove('active');
+                } else {
+                    filterElement.classList.add('active');
+                }
+            }
+            doFilter(filterArray)
+        })
+    })
 
 }
