@@ -1,5 +1,24 @@
+@font-face {
+    font-family: "MaterialIcons";
+    src: url(https://github.com/google/material-design-icons/blob/master/iconfont/MaterialIcons-Regular.ttf);
+}
+
 body{
     background-color: #efefef;
+}
+
+header div {
+    background-color: #363636;
+    color:#fff;
+}
+
+header div img {
+    width: 40px;
+}
+
+header div ul li {
+    list-style:  none;
+    margin-left: 20px;
 }
 
 main {
@@ -121,4 +140,11 @@ main div.row {
 
 .hidden {
     display: none !important;
+}
+
+[type=checkbox]:checked + [for^=check]:before{
+    background: white;
+    font-family: "MaterialIcons";
+    content: '\E835';
+    width:90px;
 }

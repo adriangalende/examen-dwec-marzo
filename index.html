@@ -11,15 +11,27 @@
     <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-    <header>
-        <div class="navbar navbar-inverse">
-
+    <header class="col-12">
+        <div class="nav navbar navbar-inverse d-flex flex-row w-100 col-12 align-items-center">
+            <div class="col-2">
+                <img src="img/sr-banner-logo.png">
+            </div>
+            <ul class="nav-item d-flex flex-row-reverse w-100 p-2">
+                <li>HOME</li>
+                <li>BLOG</li>
+                <li>PREVIOUS RAFFLES</li>
+                <li>ENTERED RAFFLES</li>
+                <li>LOG IN</li>
+                <li>REGISTER</li>
+            </ul>
         </div>
     </header>
     <div class="container">
         <main class="col-12">
             <div class="row m-0 p-4 d-flex">
-                <div id="shoe-img" class="col-5"></div>
+                <div id="shoe-img" class="col-5 d-flex align-items-center">
+                    <img class="img-fluid" src="img/Sacai-x-Nike-LDV-Waffle-BV0073-400-Raffle-Guide-Sole-Retriever-1.jpg" alt="">
+                </div>
                 <div id="shoe-container" class="col-7 d-flex flex-wrap justify-content-end">
                     <p id="model" class="font-weight-bold p-0 h1"></p>
                     <p id="colour" class="font-weight-bold  p-0"></p>
@@ -31,7 +43,7 @@
                 </div>
             </div>
             <div id="filters-container" class="col-12 p-2 d-flex justify-content-around">
-                <span>All</span>
+                <span class="active">All</span>
             </div>
             <div id="raffles-container" class="col-12 d-flex flex-wrap justify-content-around">
 

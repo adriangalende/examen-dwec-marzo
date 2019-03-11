@@ -1,4 +1,3 @@
-
 var shoe = {
     "model": "Sacai x Nike LDV Waffle",
     "colour": "Varsity Blue/Del Sol/Varsity Red",
@@ -76,7 +75,7 @@ var raffles = {
     },
 
     "Solebox": {
-        "logo": "https://www.soleretriever.com/wp-content/uploads/2018/04/SoleBox.jpg'git",
+        "logo": "https://www.soleretriever.com/wp-content/uploads/2018/04/SoleBox.jpg",
         "country": "Germany",
         "purchase": "In-Store/Online",
         "collection": "Post and Collect",
