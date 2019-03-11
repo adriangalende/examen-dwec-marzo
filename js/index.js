@@ -92,6 +92,28 @@ var raffles = {
 
 window.onload = function(){
 
+    var rafflesStatus = {}
+
+    function manageRaffles(raffleTitle){
+        if(rafflesStatus[raffleTitle] != undefined){
+
+        } else {
+            rafflesStatus[raffleTitle] = {
+                title:raffleTitle,
+                active: isActive(raffleTitle)
+            }
+        }
+    }
+
+    function isActive(raffleTitle){
+        let localStorageRaffle = JSON.parse(localStorage.getItem(raffleTitle));
+        if(localStorageRaffle != undefined){
+            return localStorageRaffle.active;
+        } else {
+            return false;
+        }
+    }
+
     /*
        Obtenemos el valor del objeto shoe diractamente utilizando las ids que tenemos
      */
@@ -122,6 +144,7 @@ window.onload = function(){
     var rafflesKeys = Object.keys(raffles)
 
     rafflesKeys.forEach(raffleTitle => {
+        manageRaffles(raffleTitle);
         //Obtenemos el objeto raffle;
        let raffle = raffles[raffleTitle];
 
@@ -183,20 +206,25 @@ window.onload = function(){
         star_container.classList.add('font-weight-bold')
         star_container.classList.add('d-flex')
         star_container.classList.add('p-3')
-        star_container.classList.add('align-items-center')
+        star_container.classList.add('align-items-baseline')
 
         let star = document.createElement('input');
         star.type ="checkbox";
+        //Carga el estado del checkbox [activo, desactivo]
+        star.checked = rafflesStatus[raffleTitle].active;
         star.classList.add('ml-2');
 
-        let star_container_text = document.createTextNode("Mark as entered");
+        let textEntered =  star.checked ? "Entered" : "Mark as entered";
 
+        let star_container_text_p = document.createElement('p');
+        let star_container_text = document.createTextNode(textEntered);
 
 
         star.classList.add('fa')
         star.classList.add('fa-star')
 
-        star_container.append(star_container_text);
+        star_container_text_p.append(star_container_text)
+        star_container.append(star_container_text_p);
         star_container.append(star);
         div.append(star_container);
 
@@ -234,6 +262,38 @@ window.onload = function(){
             button.srcElement.classList.remove(activeStatus);
         })
     })
+
+
+
+    /**
+     * EVENTO QUE CONTROLA CUANDO CLICAMOS EN MARK AS ENTERED EN UNA DE LAS RIFAS
+     */
+
+    document.querySelectorAll('#raffles-container div input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function(entered){
+            let shopName = entered.srcElement.parentNode.parentNode.id.replace('-', ' ');
+            let storageItem = localStorage.getItem(shopName);
+            //Si no existe en el localStorage lo añadimos
+            if(storageItem == null){
+                rafflesStatus[shopName].active = entered.srcElement.checked;
+                localStorage.setItem(shopName, JSON.stringify(rafflesStatus[shopName]))
+            } else {
+                rafflesStatus[shopName].active = !rafflesStatus[shopName].active;
+                localStorage.setItem(shopName, JSON.stringify(rafflesStatus[shopName]))
+            }
+
+            let checked = rafflesStatus[shopName].active;
+
+            if(checked){
+                entered.srcElement.previousSibling.innerText = "Entered";
+                entered.srcElement.style="background:red"
+            } else {
+                entered.srcElement.previousSibling.innerText = "Mark as entered";
+                entered.srcElement.style="background:#fff"
+            }
+
+        })
+    });
 
 
 }
