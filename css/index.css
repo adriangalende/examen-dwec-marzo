@@ -1,5 +1,5 @@
-bodu{
-    background-color: #adadad;
+body{
+    background-color: #efefef;
 }
 
 main {
@@ -38,4 +38,42 @@ main div.row {
     text-align: right;
     font-weight: 400;
     font-style: normal;
+}
+
+#raffles-container div {
+    justify-content: center;
+
+}
+
+#raffles-container div img {
+    max-width: 200px;
+}
+
+#raffles-container div p {
+    text-align: center;
+}
+
+.live {
+    background: #8fbc8f;
+    border-color: #8fbc8f;
+    color:#fff;
+    font-weight: bolder;
+}
+
+.live:hover, .closed:hover, .announced:hover {
+    cursor: pointer;
+}
+
+.closed {
+    background: #ff6f69;
+    border-color: #ff6f69;
+    color:#fff;
+    font-weight: bolder;
+}
+
+.announced{
+    background: #d5d0b0;
+    border-color: #d5d0b0;
+    color:#fff;
+    font-weight: bolder;
 }
