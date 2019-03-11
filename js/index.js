@@ -113,6 +113,11 @@ window.onload = function(){
         return raffleArrayAux;
     }
 
+    /**
+     * PINTAMOS LAS RIFAS A PARTIR DE LOS KEYS QUE OBTENEMOS DEL ARCHIVO JSON
+     * TAMBIÉN PINTAREMOS LOS ELEMENTOS DE CADA RIFA OBTENIENDO SUS ARGUMENTOS
+     * @type {string[]}
+     */
     //Todos los títulos de  las rifas que vienen en el objeto
     var rafflesKeys = Object.keys(raffles)
 
@@ -182,9 +187,9 @@ window.onload = function(){
 
         let star = document.createElement('input');
         star.type ="checkbox";
-        star.classList.add('ml-2')
+        star.classList.add('ml-2');
 
-        let star_container_text = document.createTextNode("Mark as read");
+        let star_container_text = document.createTextNode("Mark as entered");
 
 
 
@@ -197,8 +202,38 @@ window.onload = function(){
 
         document.getElementById('raffles-container').append(div);
 
-
     });
+
+
+    /**
+     * EVENTO QUE MODIFICA EL COMPORTAMIENTO DE LOS BOTONES AL HACERLES HOVER;
+     *
+     */
+
+    var buttonStatus = {
+        live:'liveHovered',
+        closed:'closedHovered',
+        announced:'announcedHovered'
+    }
+
+    var activeStatus = "";
+    document.querySelectorAll('#raffles-container div a').forEach(buttonAnchor => {
+        buttonAnchor.addEventListener('mouseenter',function(button){
+            button.srcElement.classList.add('buttonHovered');
+            Object.keys(buttonStatus).forEach(status => {
+                if(button.srcElement.classList.contains(status)){
+                    activeStatus = buttonStatus[status];
+                    button.srcElement.classList.add(activeStatus);
+                }
+            })
+
+        })
+
+        buttonAnchor.addEventListener('mouseout',function(button){
+            button.srcElement.classList.remove('buttonHovered');
+            button.srcElement.classList.remove(activeStatus);
+        })
+    })
 
 
 }

@@ -53,11 +53,34 @@ main div.row {
     text-align: center;
 }
 
+.buttonHovered {
+    position: relative;
+    bottom:3px;
+    text-decoration: none !important;
+    color:#fff !important;
+}
+
 .live {
     background: #8fbc8f;
     border-color: #8fbc8f;
     color:#fff;
     font-weight: bolder;
+}
+
+.liveHovered {
+    background-color:#9fc69f;
+    color:#fff;
+    text-decoration: none !important;
+}
+
+.closedHovered {
+    background-color:#ff574f;
+    color:#fff;
+    text-decoration: none !important;
+}
+
+.announcedHovered {
+    text-decoration: none !important;
 }
 
 .live:hover, .closed:hover, .announced:hover {
