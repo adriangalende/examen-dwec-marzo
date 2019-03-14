@@ -127,7 +127,7 @@ window.onload = function(){
 
 
 
-    var raffleFilters = ["post","collection","raffle","FCFS"];
+    var raffleFilters = ["post","online","collection","raffle","FCFS"];
     function generateFilters(filter){
         if(!isInArray(filter)){
             filter.split(",").forEach(filterSplitted =>{
@@ -136,18 +136,6 @@ window.onload = function(){
                 }
             });
         }
-    }
-
-    arrayFiltersToLowercase();
-
-    function arrayFiltersToLowercase(){
-        console.log("antes")
-        console.log(raffleFilters)
-        raffleFilters.forEach(filter => {
-            raffleFilters[raffleFilters.indexOf(filter)] = filter.toLowerCase();
-        })
-        console.log("despues")
-        console.log(raffleFilters)
     }
 
     /*
@@ -188,8 +176,6 @@ window.onload = function(){
         generateFilters(raffle['country'])
 
         Object.keys(raffle).forEach(raffleKey => {
-
-
 
             if(raffleKey == "logo"){
                 let img = document.createElement('img');
@@ -368,6 +354,12 @@ window.onload = function(){
         cleanActives();
     }
 
+    /**
+     * Comparamos el texto del elemento de la rifa ( logo, Ciudad, Tipo de venta ) con los filtros que tenemos
+     * @param filters
+     * @param raffleFilter
+     * @returns {boolean}
+     */
     function filterMatch(filters, raffleFilter){
         let status = false;
         filters.forEach(filter => {
