@@ -99,7 +99,7 @@ window.onload = function(){
      */
     function manageRaffles(raffleTitle){
         if(rafflesStatus[raffleTitle] != undefined){
-
+            rafflesStatus[raffleTitle].active = isActive(raffleTitle);
         } else {
             rafflesStatus[raffleTitle] = {
                 title:raffleTitle,
@@ -333,7 +333,7 @@ window.onload = function(){
      */
 
     function cleanActives(){
-        index = 0;
+        let index = 0;
         document.querySelectorAll('#filters-container span').forEach(span => {
             if(index > 0){
                 span.classList.remove('active');
@@ -412,7 +412,7 @@ window.onload = function(){
     var filterArray = [];
     document.querySelectorAll('#filters-container span').forEach(span => {
         span.addEventListener('click', function(filter){
-            filterElement = filter.srcElement;
+            let filterElement = filter.srcElement;
 
             //Si seleccionamos todos
             if(filterElement.innerText == "All"){
