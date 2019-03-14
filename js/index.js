@@ -127,7 +127,7 @@ window.onload = function(){
 
 
 
-    var raffleFilters = ["post","collect","raffle","FCFS"];
+    var raffleFilters = ["post","collection","raffle","FCFS"];
     function generateFilters(filter){
         if(!isInArray(filter)){
             filter.split(",").forEach(filterSplitted =>{
@@ -136,6 +136,18 @@ window.onload = function(){
                 }
             });
         }
+    }
+
+    arrayFiltersToLowercase();
+
+    function arrayFiltersToLowercase(){
+        console.log("antes")
+        console.log(raffleFilters)
+        raffleFilters.forEach(filter => {
+            raffleFilters[raffleFilters.indexOf(filter)] = filter.toLowerCase();
+        })
+        console.log("despues")
+        console.log(raffleFilters)
     }
 
     /*
@@ -169,8 +181,8 @@ window.onload = function(){
         div.id = raffleTitle.replace(' ','-');
         div.classList.add('card');
         div.classList.add('d-flex');
-        div.classList.add('p-3')
-        div.classList.add('m-3')
+        div.classList.add('p-1')
+        div.classList.add('m-1')
 
         //Para añadir filtro de país dinámicamente
         generateFilters(raffle['country'])
@@ -356,17 +368,36 @@ window.onload = function(){
         cleanActives();
     }
 
+    function filterMatch(filters, raffleFilter){
+        let status = false;
+        filters.forEach(filter => {
+            if(raffleFilter.toLowerCase().includes(filter.toLowerCase())){
+                status = true;
+            }
+        });
+
+        return status;
+
+    }
+
     function doFilter(filters){
 
         if(filters.length == 0){
             showAll();
         } else {
 
+            console.log("FILTROS SELECCIONADOS");
+            console.log(filters);
+
             rafflesKeys.forEach(raffle => {
                 var finded = false;
                 //Miramos todos los atributos de las raffles
                 Object.keys(raffles[raffle]).forEach(raffleAttribute => {
-                    if (filters.includes(raffles[raffle][raffleAttribute])) {
+
+                    console.log("El atributo de la rifa: " + raffleAttribute + " tiene el valor: " + raffles[raffle][raffleAttribute]);
+                    console.log("Este string contiene  algún elemento que esté en el array?")
+                    console.log(filters.includes(raffles[raffle][raffleAttribute]));
+                    if (filterMatch(filters,raffles[raffle][raffleAttribute])) {
                         rafflesStatus[raffle].filtered = true;
                         finded = true;
                         document.getElementById(raffle.replace(' ', '-')).classList.remove('hidden');
