@@ -148,3 +148,16 @@ main div.row {
     content: '\E835';
     width:90px;
 }
+
+.rating-star,.rating-star-selected {
+    cursor: pointer;
+    display: flex;
+    width: 16px;
+    height: 16px;
+    background: url(../img/star.png) 0 -16px;
+    margin-left:15px;
+}
+
+.rating-star-selected{
+    background-position: 0 0;
+}

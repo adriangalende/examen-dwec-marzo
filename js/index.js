@@ -219,8 +219,6 @@ window.onload = function(){
             }
         })
 
-
-
         let star_container = document.createElement('div');
         star_container.classList.add('font-weight-bold')
         star_container.classList.add('d-flex')
@@ -232,23 +230,30 @@ window.onload = function(){
         //Carga el estado del checkbox [activo, desactivo]
         star.checked = rafflesStatus[raffleTitle].active;
         star.classList.add('ml-2');
+        star.style = 'display:none';
 
         let textEntered =  star.checked ? "Entered" : "Mark as entered";
 
         let star_container_text_p = document.createElement('p');
         let star_container_text = document.createTextNode(textEntered);
 
+        star.id = "star-"+raffleTitle.replace(" ","-");
 
-        star.classList.add('fa')
-        star.classList.add('fa-star')
+        //Añadimos el label
+        // <label for="rating-input-1-2" class="rating-star"></label>
+        let labelStar = document.createElement('label');
+        labelStar.className = "rating-star";
+        labelStar.htmlFor = star.id;
+
 
         star_container_text_p.append(star_container_text)
         star_container.append(star_container_text_p);
+        star_container.append(labelStar)
         star_container.append(star);
+
         div.append(star_container);
-
         document.getElementById('raffles-container').append(div);
-
+        fillStar(raffleTitle, star.checked);
     });
 
 
@@ -301,6 +306,17 @@ window.onload = function(){
      * EVENTO QUE CONTROLA CUANDO CLICAMOS EN MARK AS ENTERED EN UNA DE LAS RIFAS
      */
 
+    function fillStar(shopName, checked){
+        let input = document.getElementById("star-"+shopName.replace(" ","-")).previousSibling;
+        if(checked){
+            input.classList.add("rating-star-selected")
+            input.classList.remove("rating-star");
+        } else {
+            input.classList.remove("rating-star-selected");
+            input.classList.add("rating-star");
+        }
+    }
+
     document.querySelectorAll('#raffles-container div input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', function(entered){
             let shopName = entered.srcElement.parentNode.parentNode.id.replace('-', ' ');
@@ -314,14 +330,15 @@ window.onload = function(){
                 localStorage.setItem(shopName, JSON.stringify(rafflesStatus[shopName]))
             }
 
+
+
             let checked = rafflesStatus[shopName].active;
+            fillStar(shopName, checked);
 
             if(checked){
-                entered.srcElement.previousSibling.innerText = "Entered";
-                entered.srcElement.style="background:red"
+                entered.srcElement.previousSibling.previousSibling.innerText = "Entered";
             } else {
-                entered.srcElement.previousSibling.innerText = "Mark as entered";
-                entered.srcElement.style="background:#fff"
+                entered.srcElement.previousSibling.previousSibling.innerText = "Mark as entered";
             }
 
         })
