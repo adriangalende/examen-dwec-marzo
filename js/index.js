@@ -151,6 +151,30 @@ window.onload = function(){
         }
     });
 
+    var winProbabilities = {
+        W:20,
+        L: 100-this.w
+    }
+
+    function randomRaffle(){
+        return parseInt(Math.random()*100);
+    }
+
+    function getRaffleResult(number){
+        //Si es menos o igual has ganado.
+        return winProbabilities.W <= number ? 'W':'L';
+    }
+
+    /**
+     * Añade a cada raffle el valor del resultado de la rifa
+     *
+     */
+    function modifyRaffleObject(raffleTitle){
+        let randomNumber = randomRaffle();
+        //Utilizamos random para mostrar si el usuario ha ganado o perdido la rifa
+        raffles[raffleTitle].result = getRaffleResult(randomNumber);
+
+    }
 
     /**
      * PINTAMOS LAS RIFAS A PARTIR DE LOS KEYS QUE OBTENEMOS DEL ARCHIVO JSON
@@ -159,6 +183,7 @@ window.onload = function(){
      */
     //Todos los títulos de  las rifas que vienen en el objeto
     var rafflesKeys = Object.keys(raffles)
+
 
     rafflesKeys.forEach(raffleTitle => {
         manageRaffles(raffleTitle);
@@ -173,11 +198,15 @@ window.onload = function(){
         div.classList.add('m-1')
 
         //Para añadir filtro de país dinámicamente
-        generateFilters(raffle['country'])
+        generateFilters(raffle['country']);
+
+        if(isActive(raffleTitle)){
+            modifyRaffleObject(raffleTitle);
+        }
 
         Object.keys(raffle).forEach(raffleKey => {
 
-            if(raffleKey == "logo"){
+            if (raffleKey == "logo") {
                 let img = document.createElement('img');
                 img.src = raffle[raffleKey];
                 img.classList.add('card-img-top')
@@ -191,14 +220,14 @@ window.onload = function(){
                 div.appendChild(shop);
 
 
-            } else if(raffleKey == "url"){
+            } else if (raffleKey == "url") {
 
                 let button = document.createElement('a');
                 button.href = raffle[raffleKey];
                 button.classList.add('btn');
 
                 let status = "";
-                if(raffle['Closes'] == "closed"){
+                if (raffle['Closes'] == "closed") {
                     status = "CLOSED";
                     button.classList.add(raffle['Closes']);
                 } else {
@@ -211,9 +240,18 @@ window.onload = function(){
                 button.append(buttonText);
                 div.appendChild(button);
 
-            } else {
+            } else{
                 let p = document.createElement('p');
-                let text = document.createTextNode( raffleKey +" - "+ raffle[raffleKey]);
+                let text = "";
+                //Win - lose situation
+                let isWinLose = raffle[raffleKey] == "W" || raffle[raffleKey] == "L"  ? true : false;
+                if(isWinLose) {
+                    text =  document.createTextNode( raffle[raffleKey]);
+                    p.classList.add(raffle[raffleKey]);
+                } else {
+                    text = document.createTextNode( raffleKey +" - "+ raffle[raffleKey]);
+                }
+
                 p.append(text);
                 div.appendChild(p);
             }
@@ -255,6 +293,10 @@ window.onload = function(){
         document.getElementById('raffles-container').append(div);
         //Pintamos la estrella si ha sido seleccionada previamente
         fillStar(raffleTitle, star.checked);
+
+        //Me ha tocado?
+        modifyRaffleObject(raffleTitle);
+
     });
 
 
@@ -268,7 +310,7 @@ window.onload = function(){
             let filterName = document.createTextNode(filter);
 
             filterItem.append(filterName);
-            filter_container.append(filterItem)
+            filter_container.append(filterItem);
         })
 
     /**
@@ -453,5 +495,7 @@ window.onload = function(){
             doFilter(filterArray)
         })
     })
+
+
 
 }

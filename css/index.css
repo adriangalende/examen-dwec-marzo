@@ -161,3 +161,17 @@ main div.row {
 .rating-star-selected{
     background-position: 0 0;
 }
+
+.W,.L{
+    font-weight: bolder;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 10px;
+    color: #8fbc8f;
+}
+
+.L{
+    color:#ff6f69 !important;
+}
