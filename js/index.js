@@ -253,6 +253,7 @@ window.onload = function(){
 
         div.append(star_container);
         document.getElementById('raffles-container').append(div);
+        //Pintamos la estrella si ha sido seleccionada previamente
         fillStar(raffleTitle, star.checked);
     });
 
