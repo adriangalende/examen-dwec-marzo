@@ -153,7 +153,7 @@ window.onload = function(){
 
     var winProbabilities = {
         W:20,
-        L: 100-this.w
+        L: 100-this.W
     }
 
     function randomRaffle(){
@@ -161,8 +161,8 @@ window.onload = function(){
     }
 
     function getRaffleResult(number){
-        //Si es menos o igual has ganado.
-        return winProbabilities.W <= number ? 'W':'L';
+        //Si el número aleatorio es menor o igual a W.
+        return winProbabilities.W >= number ? 'W':'L';
     }
 
     /**
